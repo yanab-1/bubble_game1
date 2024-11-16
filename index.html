@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bubble_tap</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        
+        #main{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right bottom, #69f948, #00f5ad, #00e9f0, #00d5ff, #83bff7);
+        }
+        #panel{
+            width: 80%;
+            height: 80%;
+            background-color: aliceblue;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        }
+        #top-panel{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 100px;
+            background-color: rgb(9, 134, 9);
+            padding: 0px 30%;
+           
+        }
+        .elem{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #fff;
+            
+        }
+        .elem h2{
+            font-size: 22px;
+        }
+        .box{
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #fff;
+            font-weight: bolder;
+            color: green;
+            font-size: 26px;
+            
+        }
+        #bottom-panel{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: calc(100% - 100px);
+            padding: 10px;
+            gap:10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .bubble{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: rgb(13, 198, 13);  
+            font-size: 20px;
+            color: #fff;
+        }
+        .bubble:hover{
+            background-color:  rgb(3, 90, 3);
+            cursor: pointer;
+            color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="panel">
+            <div id="top-panel">
+                <div class="elem">
+                    <h2>hit</h2>
+                    <div id="hitval" class="box">7</div>
+                </div>
+                <div class="elem">
+                    <h2>timer</h2>
+                    <div id="timerval" class="box">60</div>
+                </div>
+                <div class="elem">
+                    <h2>score</h2>
+                    <div id="scoreval" class="box">0</div>
+                </div>
+            </div>
+            <div id="bottom-panel">
+                <div class="bubble">5</div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function makebubble(){
+            var bubble="";
+        for(var i=1;i<=168;i++){
+            var num=Math.floor(Math.random()*10);
+            bubble+=` <div class="bubble">${num}</div>`;
+        }
+        document.getElementById("bottom-panel").innerHTML=bubble;
+        }
+        
+        
+        var timer=60;
+        var hit;
+        function getnewhit(){
+             hit=Math.floor(Math.random()*10);
+            document.getElementById("hitval").textContent=hit;
+        }
+        
+        function runtimer(){
+            var time=setInterval(function(){
+                if(timer>0){
+                    timer--;
+                    document.querySelector("#timerval").textContent=timer;
+                }
+                else{
+                    clearInterval(time);
+                    document.getElementById("bottom-panel").innerHTML=`<h1>game over</h1>`;
+        
+                }
+            },1000);
+        }
+        var score=0;
+        function increase_score(){
+            score+=10;
+            document.querySelector("#scoreval").textContent=score
+        }
+        runtimer();
+        getnewhit();
+        makebubble();
+        document.querySelector("#bottom-panel").addEventListener("click",function(dets){
+            var clickednum=Number(dets.target.textContent);
+            if(clickednum==hit){
+                increase_score();
+                getnewhit();
+            }
+            });
+        
+        
+    </script>
+</html>
